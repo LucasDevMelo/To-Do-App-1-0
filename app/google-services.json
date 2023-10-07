@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "95497834196",
+    "project_id": "to-do-app-aa41c",
+    "storage_bucket": "to-do-app-aa41c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95497834196:android:160f373c5002a50d56f541",
+        "android_client_info": {
+          "package_name": "com.loopssoftwares.to_do_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwVQ4OzxVNX3DlS9ZT71FyQnamCHzUpWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
