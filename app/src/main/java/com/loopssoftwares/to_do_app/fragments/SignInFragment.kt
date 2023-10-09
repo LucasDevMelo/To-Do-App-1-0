@@ -61,7 +61,7 @@ class SignInFragment : Fragment() {
                                 "Entrou na conta com sucesso",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            navControl.navigate(R.id.action_signInFragment_to_homeFragment)
+                            navControl.navigate(R.id.action_signInFragment_to_newHomeActivity)
                         } else {
                             Toast.makeText(context, it.exception?.message, Toast.LENGTH_SHORT)
                                 .show()
