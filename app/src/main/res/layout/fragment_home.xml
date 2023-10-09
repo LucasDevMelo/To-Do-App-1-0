@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.HomeFragment"
+    tools:context=".ui.home.HomeFragment"
     android:background="@color/white">
 
     <TextView
@@ -14,12 +14,23 @@
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Olá, como está?"
+        android:text="Bem vindo de volta"
         android:layout_marginTop="80dp"
         android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:itemCount="1"
+        android:layout_margin="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/each_category_item"
+        app:layout_constraintTop_toBottomOf="@+id/Hello"/>
 
     <TextView
         android:id="@+id/All_tasks_Tittle"
@@ -29,7 +40,7 @@
         android:text="Todas as Tarefas:"
         android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Hello" />
+        app:layout_constraintTop_toBottomOf="@+id/rv_category" />
 
 
     <ImageView
