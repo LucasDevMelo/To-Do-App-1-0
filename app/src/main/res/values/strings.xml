@@ -29,4 +29,5 @@
     <string name="LoopSoftware">by Loop Softwares</string>
     <string name="app_description">O Loop To Do é a sua solução definitiva para organização e produtividade. Seja você um estudante ocupado, um profissional multitarefa ou alguém que simplesmente deseja manter a vida em ordem, este aplicativo é feito sob medida para você. É mais do que um simples aplicativo de lista de tarefas, é o seu parceiro confiável na jornada da produtividade</string>
     <string name="app_website">https://lucaslopes.netlify.app/</string>
+    <string name="type_your_description">Digite sua descrição</string>
 </resources>

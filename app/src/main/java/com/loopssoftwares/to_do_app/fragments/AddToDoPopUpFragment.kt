@@ -52,6 +52,15 @@ class AddToDoPopUpFragment : DialogFragment() {
             )
 
             binding.todoEt.setText(toDoData?.task)
+
+            binding.datePickerButton.setOnClickListener {
+                DatePickerFragment { result -> binding.selectedDateText.text = result }
+                    .show(childFragmentManager,"datePicker")
+            }
+            binding.timePickerButton.setOnClickListener {
+                TimePickerFragment { result -> binding.selectedDateText.text = result }
+                    .show(childFragmentManager,"timePicker")
+            }
         }
         registerEvents()
     }
