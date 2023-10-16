@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -83,9 +84,11 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
                     val taskId = taskSnapshot.key
                     val taskTitle = taskSnapshot.child("task").value.toString()
                     val taskDescription = taskSnapshot.child("taskDesc").value.toString()
+                    val taskDate = taskSnapshot.child("taskDate").value.toString()
+                    val taskTime = taskSnapshot.child("taskTime").value.toString()
 
                     if (!taskId.isNullOrEmpty() && !taskTitle.isNullOrEmpty()) {
-                        val todoTask = ToDoData(taskId, taskTitle, taskDescription)
+                        val todoTask = ToDoData(taskId, taskTitle, taskDescription, taskDate, taskTime)
                         mList.add(todoTask)
                     }
                 }
@@ -98,12 +101,15 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
         })
     }
 
-    override fun onSaveTask(todo: String, todoEt: TextInputEditText, todoEt2: TextInputEditText) {
+    override fun onSaveTask(todo: String, todoEt: TextInputEditText, todoEt2: TextInputEditText, selected_date_text: TextView, selected_time_text: TextView) {
         val taskName = todoEt.text.toString()
         val taskDescription = todoEt2.text.toString()
         val taskTheId = databaseRef.push().key!!
+        val taskTheDate = selected_date_text.text.toString()
+        val taskTheTime = selected_time_text.text.toString()
 
-        val theTask = ToDoData(taskTheId, taskName, taskDescription) // Crie um objeto ToDoData com título e descrição
+
+        val theTask = ToDoData(taskTheId, taskName, taskDescription, taskTheDate, taskTheTime) // Crie um objeto ToDoData com título e descrição
 
         databaseRef.child(taskTheId).setValue(theTask).addOnCompleteListener {
             if (it.isSuccessful) {
@@ -113,12 +119,14 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
             }
             todoEt.text = null
             todoEt2.text = null
+            selected_date_text.text = null
+            selected_time_text.text = null
             popUpFragment!!.dismiss()
         }
     }
 
 
-    override fun onUpdateTask(toDoData: ToDoData, todoEt: TextInputEditText, todoEt2: TextInputEditText) {
+    override fun onUpdateTask(toDoData: ToDoData, todoEt: TextInputEditText, todoEt2: TextInputEditText, selected_date_text: TextView, selected_time_text: TextView) {
         val map = HashMap<String,Any>()
             map[toDoData.taskId] = toDoData.task
             databaseRef.updateChildren(map).addOnCompleteListener {
@@ -129,6 +137,8 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
                 }
                 todoEt.text = null
                 todoEt2.text = null
+                selected_date_text.text = null
+                selected_time_text.text = null
                 popUpFragment!!.dismiss()
             }
     }
@@ -147,7 +157,7 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
         if (popUpFragment != null)
             childFragmentManager.beginTransaction().remove(popUpFragment!!).commit()
 
-        popUpFragment = AddToDoPopUpFragment.newInstance(toDoData.taskId , toDoData.task, toDoData.taskDesc)
+        popUpFragment = AddToDoPopUpFragment.newInstance(toDoData.taskId , toDoData.task, toDoData.taskDesc, toDoData.taskDate, toDoData.taskTime)
         popUpFragment!!.setListener(this)
         popUpFragment!!.show(childFragmentManager, AddToDoPopUpFragment.TAG)
 
