@@ -64,7 +64,9 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
         database = FirebaseDatabase.getInstance()
         navController = Navigation.findNavController(view)
         auth = FirebaseAuth.getInstance()
-        databaseRef = FirebaseDatabase.getInstance().getReference("Tarefas").child(auth.currentUser?.uid.toString())
+        val uid = auth.currentUser?.uid
+        databaseRef = FirebaseDatabase.getInstance().getReference("Tarefas").child(uid.toString())
+
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         mList = mutableListOf()
@@ -73,16 +75,17 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
         binding.recyclerView.adapter = adapter
     }
 
-    private fun getDataFromFirebase(){
-        databaseRef.addValueEventListener(object  : ValueEventListener{
+    private fun getDataFromFirebase() {
+        databaseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 mList.clear()
-                for(taskSnapshot in snapshot.children){
-                    val todoTask = taskSnapshot.key?.let{
-                        ToDoData(it , taskSnapshot.value.toString() , taskSnapshot.value.toString())
-                    }
+                for (taskSnapshot in snapshot.children) {
+                    val taskId = taskSnapshot.key
+                    val taskTitle = taskSnapshot.child("task").value.toString()
+                    val taskDescription = taskSnapshot.child("taskDesc").value.toString()
 
-                    if (todoTask != null){
+                    if (!taskId.isNullOrEmpty() && !taskTitle.isNullOrEmpty()) {
+                        val todoTask = ToDoData(taskId, taskTitle, taskDescription)
                         mList.add(todoTask)
                     }
                 }
@@ -90,36 +93,30 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context , error.message , Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 
     override fun onSaveTask(todo: String, todoEt: TextInputEditText, todoEt2: TextInputEditText) {
         val taskName = todoEt.text.toString()
-        val taskTheDescription = todoEt2.text.toString()
+        val taskDescription = todoEt2.text.toString()
         val taskTheId = databaseRef.push().key!!
 
-        val theTask = ToDoData(taskTheId, taskName, taskTheDescription)
+        val theTask = ToDoData(taskTheId, taskName, taskDescription) // Crie um objeto ToDoData com título e descrição
 
-//        databaseRef.child(taskTheId).setValue(theTask, taskTheDescription).addOnCompleteListener {
-//            Toast.makeText(context , "Tarefa salva com sucesso !!" , Toast.LENGTH_SHORT).show()
-//
-//        }.addOnFailureListener { err ->
-//            Toast.makeText(context , "Ocorreu um erro" , Toast.LENGTH_SHORT).show()
-//        }
-        databaseRef.push().setValue(todo).addOnCompleteListener {
-            if (it.isSuccessful){
-                Toast.makeText(context , "Tarefa salva com sucesso !!" , Toast.LENGTH_SHORT).show()
+        databaseRef.child(taskTheId).setValue(theTask).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Toast.makeText(context, "Tarefa salva com sucesso!", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context , it.exception?.message , Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, it.exception?.message, Toast.LENGTH_SHORT).show()
             }
             todoEt.text = null
             todoEt2.text = null
             popUpFragment!!.dismiss()
         }
     }
+
 
     override fun onUpdateTask(toDoData: ToDoData, todoEt: TextInputEditText, todoEt2: TextInputEditText) {
         val map = HashMap<String,Any>()
