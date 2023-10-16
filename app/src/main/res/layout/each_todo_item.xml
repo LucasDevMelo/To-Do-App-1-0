@@ -17,7 +17,7 @@
             android:id="@+id/todoTask"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
+            android:layout_marginStart="16dp"
             android:text="Item 1 Item 1 Item 1Item 1 Item 1 Item 1 Item 1 Item 1"
             android:maxLines="3"
             android:textColor="@color/black"
@@ -25,6 +25,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/todoDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="teste"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/todoTask"/>
 
         <ImageView
             android:id="@+id/editTask"

@@ -24,6 +24,7 @@ class ToDoAdapter(private val list:MutableList<ToDoData>) :
         with(holder){
             with(list[position]){
                 binding.todoTask.text = this.task
+                binding.todoDescription.text = this.taskDesc
 
                 binding.deleteTask.setOnClickListener {
                     listener?.onDeleteBtnClicked(this)

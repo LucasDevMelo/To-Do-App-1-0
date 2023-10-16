@@ -20,6 +20,7 @@ import com.loopssoftwares.to_do_app.utils.ToDoData
 class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener,
     ToDoAdapter.ToDoAdapterClicksInterface{
 
+
     private lateinit var auth : FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private lateinit var navController: NavController
@@ -27,6 +28,7 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
     private var popUpFragment : AddToDoPopUpFragment? = null
     private lateinit var adapter: ToDoAdapter
     private lateinit var mList: MutableList<ToDoData>
+    lateinit var database: FirebaseDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,10 +61,10 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
     }
 
     private fun init(view : View){
+        database = FirebaseDatabase.getInstance()
         navController = Navigation.findNavController(view)
         auth = FirebaseAuth.getInstance()
-        databaseRef = FirebaseDatabase.getInstance().reference.child("Tarefas").child(auth.currentUser?.uid.toString())
-
+        databaseRef = FirebaseDatabase.getInstance().getReference("Tarefas").child(auth.currentUser?.uid.toString())
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         mList = mutableListOf()
@@ -77,7 +79,7 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
                 mList.clear()
                 for(taskSnapshot in snapshot.children){
                     val todoTask = taskSnapshot.key?.let{
-                        ToDoData(it , taskSnapshot.value.toString())
+                        ToDoData(it , taskSnapshot.value.toString() , taskSnapshot.value.toString())
                     }
 
                     if (todoTask != null){
@@ -94,8 +96,19 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
         })
     }
 
-    override fun onSaveTask(todo: String, todoEt: TextInputEditText) {
+    override fun onSaveTask(todo: String, todoEt: TextInputEditText, todoEt2: TextInputEditText) {
+        val taskName = todoEt.text.toString()
+        val taskTheDescription = todoEt2.text.toString()
+        val taskTheId = databaseRef.push().key!!
 
+        val theTask = ToDoData(taskTheId, taskName, taskTheDescription)
+
+//        databaseRef.child(taskTheId).setValue(theTask, taskTheDescription).addOnCompleteListener {
+//            Toast.makeText(context , "Tarefa salva com sucesso !!" , Toast.LENGTH_SHORT).show()
+//
+//        }.addOnFailureListener { err ->
+//            Toast.makeText(context , "Ocorreu um erro" , Toast.LENGTH_SHORT).show()
+//        }
         databaseRef.push().setValue(todo).addOnCompleteListener {
             if (it.isSuccessful){
                 Toast.makeText(context , "Tarefa salva com sucesso !!" , Toast.LENGTH_SHORT).show()
@@ -103,11 +116,12 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
                 Toast.makeText(context , it.exception?.message , Toast.LENGTH_SHORT).show()
             }
             todoEt.text = null
+            todoEt2.text = null
             popUpFragment!!.dismiss()
         }
     }
 
-    override fun onUpdateTask(toDoData: ToDoData, todoEt: TextInputEditText) {
+    override fun onUpdateTask(toDoData: ToDoData, todoEt: TextInputEditText, todoEt2: TextInputEditText) {
         val map = HashMap<String,Any>()
             map[toDoData.taskId] = toDoData.task
             databaseRef.updateChildren(map).addOnCompleteListener {
@@ -117,6 +131,7 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
                     Toast.makeText(context , it.exception?.message , Toast.LENGTH_SHORT).show()
                 }
                 todoEt.text = null
+                todoEt2.text = null
                 popUpFragment!!.dismiss()
             }
     }
@@ -135,7 +150,7 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
         if (popUpFragment != null)
             childFragmentManager.beginTransaction().remove(popUpFragment!!).commit()
 
-        popUpFragment = AddToDoPopUpFragment.newInstance(toDoData.taskId , toDoData.task)
+        popUpFragment = AddToDoPopUpFragment.newInstance(toDoData.taskId , toDoData.task, toDoData.taskDesc)
         popUpFragment!!.setListener(this)
         popUpFragment!!.show(childFragmentManager, AddToDoPopUpFragment.TAG)
 

@@ -25,10 +25,11 @@ class AddToDoPopUpFragment : DialogFragment() {
         const val TAG = "AddTodoPopupFragment"
 
         @JvmStatic
-        fun newInstance (taskId: String, task: String) = AddToDoPopUpFragment().apply {
+        fun newInstance (taskId: String, task: String, taskDesc: String) = AddToDoPopUpFragment().apply {
             arguments = Bundle().apply {
                 putString("taskId", taskId)
                 putString("task", task)
+                putString("taskDescription", taskDesc)
             }
         }
     }
@@ -48,10 +49,12 @@ class AddToDoPopUpFragment : DialogFragment() {
         if (arguments != null){
             toDoData = ToDoData(
                 arguments?.getString("taskId").toString(),
-                arguments?.getString("task").toString()
+                arguments?.getString("task").toString(),
+                arguments?.getString("taskDesc").toString()
             )
 
             binding.todoEt.setText(toDoData?.task)
+            binding.todoEt2.setText(toDoData?.taskDesc)
 
             binding.datePickerButton.setOnClickListener {
                 DatePickerFragment { result -> binding.selectedDateText.text = result }
@@ -68,12 +71,14 @@ class AddToDoPopUpFragment : DialogFragment() {
     private fun registerEvents(){
         binding.todoNextBtn.setOnClickListener {
             val todoTask = binding.todoEt.text.toString()
+            val todoDescription = binding.todoEt2.text.toString()
             if (todoTask.isNotEmpty()){
                 if (toDoData == null){
-                    listener.onSaveTask(todoTask, binding.todoEt)
+                    listener.onSaveTask(todoTask, binding.todoEt, binding.todoEt2)
                 } else {
                     toDoData?.task = todoTask
-                    listener.onUpdateTask(toDoData!!, binding.todoEt)
+                    toDoData?.taskDesc = todoDescription
+                    listener.onUpdateTask(toDoData!!, binding.todoEt, binding.todoEt2)
                 }
 
             } else{
@@ -87,7 +92,7 @@ class AddToDoPopUpFragment : DialogFragment() {
     }
 
     interface  DialogNextBtnClickListener{
-        fun onSaveTask(todo: String , todoEt : TextInputEditText)
-        fun onUpdateTask(toDoData: ToDoData, todoEt : TextInputEditText)
+        fun onSaveTask(todo: String , todoEt : TextInputEditText, todoEt2: TextInputEditText)
+        fun onUpdateTask(toDoData: ToDoData, todoEt : TextInputEditText, todoEt2: TextInputEditText)
     }
 }
