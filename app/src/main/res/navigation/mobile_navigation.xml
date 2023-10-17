@@ -14,12 +14,17 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.loopssoftwares.to_do_app.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/menu_today"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.loopssoftwares.to_do_app.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/menu_about"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_pomodoro"
+        android:name="com.loopssoftwares.to_do_app.PomodoroFragment"
+        android:label="@string/menu_pomodoro"
+        tools:layout="@layout/fragment_pomodoro" />
 </navigation>
