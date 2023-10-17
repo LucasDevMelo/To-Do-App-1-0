@@ -53,11 +53,11 @@ class PomodoroFragment : Fragment() {
     {
         if (timeSelected!=0)
         {
-            timeSelected+=15
-            binding.pbTimer.max = timeSelected
+            timeSelected+= 5
+            binding.pbTimer.max = timeSelected * 60
             timePause()
             startTimer(pauseOffSet)
-            Toast.makeText(context,"15 sec added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"5 minuto adicionado", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -70,7 +70,7 @@ class PomodoroFragment : Fragment() {
             timeSelected=0
             pauseOffSet=0
             timeCountDown=null
-            binding.btnPlayPause.text ="Start"
+            binding.btnPlayPause.text ="Começar"
             isStart = true
             binding.pbTimer.progress = 0
             binding.tvTimeLeft.text = "0"
@@ -92,20 +92,20 @@ class PomodoroFragment : Fragment() {
         {
             if (isStart)
             {
-                startBtn.text = "Pause"
+                startBtn.text = "Pausar"
                 startTimer(pauseOffSet)
                 isStart = false
             }
             else
             {
                 isStart =true
-                startBtn.text = "Resume"
+                startBtn.text = "Retomar"
                 timePause()
             }
         }
         else
         {
-            Toast.makeText(context,"Enter Time",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"Defina o tempo",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -114,15 +114,20 @@ class PomodoroFragment : Fragment() {
         val progressBar = binding.pbTimer
         progressBar.progress = timeProgress
         timeCountDown = object :CountDownTimer(
-            (timeSelected*1000).toLong() - pauseOffSetL*1000, 1000)
-        {
+            (timeSelected * 60 - timeProgress - pauseOffSetL) * 1000, 1000
+        ) {
             override fun onTick(p0: Long) {
                 timeProgress++
-                pauseOffSet = timeSelected.toLong()- p0/1000
-                progressBar.progress = timeSelected-timeProgress
-                val timeLeftTv:TextView = binding.tvTimeLeft
-                timeLeftTv.text = (timeSelected - timeProgress).toString()
+                pauseOffSet = (timeSelected * 60 - timeProgress) - p0 / 1000
+
+                val minutes = (timeSelected * 60 - timeProgress) / 60
+                val seconds = (timeSelected * 60 - timeProgress) % 60
+                val formattedTime = String.format("%02d:%02d", minutes, seconds)
+
+                val timeLeftTv: TextView = binding.tvTimeLeft
+                timeLeftTv.text = formattedTime
             }
+
 
             override fun onFinish() {
                 resetTime()
@@ -144,15 +149,15 @@ class PomodoroFragment : Fragment() {
         timeDialog.findViewById<Button>(R.id.btnOk).setOnClickListener {
             if (timeSet.text.isEmpty())
             {
-                Toast.makeText(context,"Enter Time Duration",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Informe a duração do tempo",Toast.LENGTH_SHORT).show()
             }
             else
             {
                 resetTime()
                 timeLeftTv.text = timeSet.text
-                btnStart.text = "Start"
+                btnStart.text = "Começar"
                 timeSelected = timeSet.text.toString().toInt()
-                progressBar.max = timeSelected
+                progressBar.max = timeSelected * 60
             }
             timeDialog.dismiss()
         }
