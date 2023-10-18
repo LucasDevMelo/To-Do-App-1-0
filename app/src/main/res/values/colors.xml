@@ -11,4 +11,7 @@
     <color name="text_color">#21108A</color>
     <color name="secondary_color">#21108A</color>
     <color name="gray">#f7f7f7</color>
+    <color name="light_purple">#e8e8f9</color>
+    <color name="light_blue">#7a8afa</color>
+    <color name="medium_blue">#4958dc</color>
 </resources>
