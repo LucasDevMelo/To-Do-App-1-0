@@ -2,8 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_menu_home"
+        android:title="@string/menu_home" />
+    <item
+        android:id="@+id/nav_gallery"
+        android:icon="@drawable/ic_menu_calendar"
+        android:title="@string/menu_calendar" />
+    <item
+        android:id="@+id/nav_pomodoro"
+        android:icon="@drawable/ic_menu_pomodoro"
+        android:title="@string/menu_pomodoro" />
+
 </menu>

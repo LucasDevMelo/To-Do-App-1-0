@@ -9,6 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -47,6 +49,14 @@ class HomeFragment : Fragment(), AddToDoPopUpFragment.DialogNextBtnClickListener
         getDataFromFirebase()
         registerEvents()
     }
+
+//    private fun initNavigation(){
+//        val navHostFragment =
+//            supportFragmentManeger.findFragmentById(R.id.nav_host_fragment2) as NavHostFragment
+//        navControler = navHostFragment.navController
+//        NavigationUI.setupWithNavController(binding.btnv, navController)
+//
+//    }
 
     private fun registerEvents(){
         binding.addBtnHome.setOnClickListener {
