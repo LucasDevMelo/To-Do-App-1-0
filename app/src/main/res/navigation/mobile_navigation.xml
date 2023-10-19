@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -22,4 +22,16 @@
         android:name="com.loopssoftwares.to_do_app.PomodoroFragment"
         android:label="@string/menu_pomodoro"
         tools:layout="@layout/fragment_pomodoro" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.loopssoftwares.to_do_app.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_slideshow"/>
+
+    <fragment
+        android:id="@+id/slideshowFragment"
+        android:name="com.loopssoftwares.to_do_app.ui.slideshow.SlideshowFragment"
+        android:label="fragment_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
 </navigation>
