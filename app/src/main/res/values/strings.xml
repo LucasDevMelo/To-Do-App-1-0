@@ -39,5 +39,5 @@
     <string name="title_dialog">Selecionar tempo</string>
     <string name="action_start">Começar</string>
     <string name="menu_calendar">Calendário</string>
-    <string name="all_tasks_today">Todas tarefas do dia</string>
+    <string name="all_tasks_today">Todas tarefas do dia:</string>
 </resources>
