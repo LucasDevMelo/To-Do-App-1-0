@@ -13,8 +13,8 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.loopssoftwares.to_do_app.ui.gallery.GalleryFragment"
-        android:label="@string/menu_today"
+        android:name="com.loopssoftwares.to_do_app.ui.CalendarFragment"
+        android:label="@string/menu_calendar"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
@@ -29,9 +29,4 @@
         android:label="@string/menu_about"
         tools:layout="@layout/fragment_slideshow"/>
 
-    <fragment
-        android:id="@+id/slideshowFragment"
-        android:name="com.loopssoftwares.to_do_app.ui.slideshow.SlideshowFragment"
-        android:label="fragment_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 </navigation>

@@ -44,7 +44,7 @@
                 android:text="00:00"
                 android:textStyle="bold"
                 android:textSize="26sp"
-                android:textColor="@color/text_color"
+                android:textColor="@color/medium_blue"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:text="Tempo restante"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:textColor="@color/text_color"/>
+                android:textColor="@color/medium_blue"/>
         </LinearLayout>
     </FrameLayout>
     <ImageButton
@@ -75,7 +75,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginBottom="161dp"
         android:text="+5 min"
-        android:textColor="@color/text_color"
+        android:textColor="@color/medium_blue"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

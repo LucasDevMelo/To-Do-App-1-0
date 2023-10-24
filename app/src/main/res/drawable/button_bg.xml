@@ -5,8 +5,8 @@
         android:radius="50dp"
         />
     <gradient
-        android:startColor="@color/text_color"
-        android:centerColor="@color/teal_200"
-        android:endColor="@color/text_color"/>
+        android:startColor="@color/medium_blue"
+        android:centerColor="@color/light_blue"
+        android:endColor="@color/medium_blue"/>
 
 </shape>

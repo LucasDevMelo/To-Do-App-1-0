@@ -111,8 +111,6 @@ class PomodoroFragment : Fragment() {
 
     private fun startTimer(pauseOffSetL: Long)
     {
-        val progressBar = binding.pbTimer
-        progressBar.progress = timeProgress
         timeCountDown = object :CountDownTimer(
             (timeSelected * 60 - timeProgress - pauseOffSetL) * 1000, 1000
         ) {
@@ -126,6 +124,9 @@ class PomodoroFragment : Fragment() {
 
                 val timeLeftTv: TextView = binding.tvTimeLeft
                 timeLeftTv.text = formattedTime
+
+                val progressBar = binding.pbTimer
+                progressBar.progress = timeProgress
             }
 
 
