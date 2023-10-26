@@ -132,7 +132,7 @@ class PomodoroFragment : Fragment() {
 
             override fun onFinish() {
                 resetTime()
-                Toast.makeText(context,"Times Up!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Tempo acabou!", Toast.LENGTH_SHORT).show()
             }
 
         }.start()
