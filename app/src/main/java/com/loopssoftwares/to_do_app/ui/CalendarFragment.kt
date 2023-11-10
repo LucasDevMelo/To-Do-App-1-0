@@ -6,13 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.loopssoftwares.to_do_app.R
 import com.loopssoftwares.to_do_app.calendar.CalendarAdapter
 import com.loopssoftwares.to_do_app.calendar.CalendarDateModel
+import com.loopssoftwares.to_do_app.utils.ToDoData
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,6 +28,7 @@ class CalendarFragment : Fragment(), CalendarAdapter.onItemClickListener {
     private lateinit var tvDateMonth: TextView
     private lateinit var ivCalendarNext: ImageView
     private lateinit var ivCalendarPrevious: ImageView
+    private lateinit var mList: MutableList<ToDoData>
 
     private val sdf = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH)
     private val cal = Calendar.getInstance(Locale.ENGLISH)
@@ -48,9 +55,7 @@ class CalendarFragment : Fragment(), CalendarAdapter.onItemClickListener {
     }
 
     override fun onItemClick(text: String, date: String, day: String) {
-        view?.findViewById<TextView>(R.id.selectedDate)?.text = "Selected date: $text"
-        view?.findViewById<TextView>(R.id.selectedDD)?.text = "Selected DD: $date"
-        view?.findViewById<TextView>(R.id.selectedDay)?.text = "Selected day: $day"
+        getTasksForSelectedDay(date)
     }
 
     /**
@@ -106,4 +111,43 @@ class CalendarFragment : Fragment(), CalendarAdapter.onItemClickListener {
         adapter.setOnItemClickListener(this@CalendarFragment)
         adapter.setData(calendarList)
     }
+    private fun getTasksForSelectedDay(selectedDate: String) {
+        // Use a referência do seu banco de dados do Firebase
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Tarefas")
+
+        // Iterar sobre os subnós de usuário dentro do nó "Tarefas"
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (userSnapshot in snapshot.children) {
+                    // Iterar sobre as tarefas dentro de cada usuário
+                    for (taskSnapshot in userSnapshot.children) {
+                        val taskDate = taskSnapshot.child("taskDate").value.toString()
+
+                        // Verificar se a tarefa possui a data desejada
+                        if (taskDate == selectedDate) {
+                            // Aqui você pode criar um objeto ToDoData e adicionar à sua lista
+                            val taskId = taskSnapshot.key
+                            val taskTitle = taskSnapshot.child("task").value.toString()
+                            val taskDescription = taskSnapshot.child("taskDesc").value.toString()
+                            val taskTime = taskSnapshot.child("taskTime").value.toString()
+
+                            if (!taskId.isNullOrEmpty() && !taskTitle.isNullOrEmpty()) {
+                                val todoTask = ToDoData(taskId, taskTitle, taskDescription, taskDate, taskTime)
+                                mList.add(todoTask)
+                            }
+                        }
+                    }
+                }
+
+                // Atualize o adapter após obter as tarefas
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Trate erros de consulta do Firebase
+                Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 }

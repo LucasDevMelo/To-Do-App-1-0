@@ -25,6 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/All_tasks_day_Tittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/all_tasks_today"
@@ -71,34 +72,15 @@
 <!--        app:layout_constraintTop_toBottomOf="@id/recyclerView"/>-->
 
 
-    <TextView
-        android:id="@+id/selectedDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selected Date : "
-        app:layout_constraintStart_toStartOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewWeekly"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <TextView
-        android:id="@+id/selectedDD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selected DD : "
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedDate"
-        app:layout_constraintBottom_toTopOf="@id/selectedDay"/>
-
-    <TextView
-        android:id="@+id/selectedDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selected Day : "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedDD"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/All_tasks_day_Tittle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
