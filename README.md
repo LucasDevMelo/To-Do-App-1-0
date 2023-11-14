@@ -11,6 +11,8 @@ Lembretes Personalizáveis: Configure lembretes com facilidade, ajustando a data
 Lista de Tarefas Intuitiva: Organize suas tarefas de maneira simples e rápida, marcando o progresso à medida que avança.
 Notificações em Tempo Real: Receba lembretes instantâneos para garantir que você nunca perca prazos ou eventos importantes.
 Design Limpo e Amigável: Uma interface de usuário intuitiva e amigável que facilita o uso, seja você um usuário experiente ou iniciante.
+Pomodoro: O app conta com um cronômetro para que o usuário possa utilizar a técnica pomodoro e se focar mais enquanto realiza suas atividades.
+
 Como Usar:
 
 Adicione suas tarefas e lembretes em segundos.
